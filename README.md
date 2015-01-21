@@ -5,12 +5,18 @@ on your mobil phone. Selection image result is also preserved. See **AndroidMani
 as We Chat is using.
 
 > - **Select Images from Album** 
+
+
 ![Select Images](https://github.com/AizazAZ/Android-Ultra-Photo-Selector/blob/master/media/image1.png)
 
 > - **Browsing all device folders that has images** 
+
+
 ![Browse Albums](https://github.com/AizazAZ/Android-Ultra-Photo-Selector/blob/master/media/image2.png)
 
-> - **Preview selected images, Zoom also supported** 
+> - **Preview selected images, Zoom also supported**
+
+
 ![Preview selected Images](https://github.com/AizazAZ/Android-Ultra-Photo-Selector/blob/master/media/image3.png)
 
 * TODO://
