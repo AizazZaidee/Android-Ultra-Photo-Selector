@@ -1,5 +1,7 @@
 package com.photoselector.util;
 
+import com.photoselector.ui.PhotoSelectorActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +55,13 @@ public class CommonUtils {
 
 	public static void launchActivityForResult(Activity context, Class<?> activity, int requestCode) {
 		Intent intent = new Intent(context, activity);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		context.startActivityForResult(intent, requestCode);
+	}
+	
+	public static void launchActivityForResult(Activity context, Class<?> activity, int requestCode, int maxImage) {
+		Intent intent = new Intent(context, activity);
+		intent.putExtra(PhotoSelectorActivity.KEY_MAX, maxImage);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		context.startActivityForResult(intent, requestCode);
 	}

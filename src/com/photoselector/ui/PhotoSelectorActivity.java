@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,6 +34,10 @@ import com.photoselector.util.CommonUtils;
 
 public class PhotoSelectorActivity extends Activity implements onItemClickListener, onPhotoItemCheckedListener, OnItemClickListener, OnClickListener {
 
+	public static final int SINGLE_IMAGE = 1;
+	public static final String KEY_MAX = "key_max";
+	private int MAX_IMAGE;
+	
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
 
@@ -54,7 +59,10 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		setContentView(R.layout.activity_photoselector);
-
+		if (getIntent().getExtras() != null) {
+			MAX_IMAGE = getIntent().getIntExtra(KEY_MAX, 10);
+		}
+		
 		DisplayImageOptions defaultDisplayImageOptions = new DisplayImageOptions.Builder() //
 				.considerExifParams(true) // 调整图片方向
 				.resetViewBeforeLoading(true) // 载入之前重置ImageView
@@ -126,8 +134,15 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			// //--keep all
 			// selected photos
 			// ///////////////////////////////////////////////////////////////////////////////////////////
-			if (!selected.contains(photoModel))
-				selected.add(photoModel);
+			if (selected.size() >= MAX_IMAGE) {
+				Toast.makeText(this, "已超出最大数量", Toast.LENGTH_SHORT).show();
+				photoModel.setChecked(false);
+				photoAdapter.notifyDataSetChanged();
+			} else {
+				if (!selected.contains(photoModel)) {
+					selected.add(photoModel);
+				}
+			}
 			ok();
 		}
 	}
