@@ -19,6 +19,9 @@ as We Chat is using.
 
 ![Preview selected Images](https://github.com/AizazAZ/Android-Ultra-Photo-Selector/blob/master/media/image3.png)
 
+* Update:
+> Added ability to set limit on how many photos user can select
+
 * TODO://
 Ability to remove selcted images
 Internatinalize by using Strings.xml
