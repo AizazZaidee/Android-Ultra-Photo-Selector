@@ -1,8 +1,7 @@
 Android-Ultra-Photo-Selector
 =============================
 Select images from Android devices made easy :-) In preview you can also Zoom images. You can select images from different albums
-on your mobil phone. Selection image result is also preserved. See **AndroidManifest.xml** for more details. This is same library
-as We Chat is using.
+on your mobil phone. Selection image result is also preserved. See **AndroidManifest.xml** for more details. 
 
         Intent intent = new Intent(context, activity);
 		intent.putExtra(PhotoSelectorActivity.KEY_MAX, maxImage);
