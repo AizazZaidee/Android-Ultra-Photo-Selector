@@ -43,15 +43,15 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		ivPhoto = (ImageView) findViewById(R.id.iv_photo_lpsi);
 		cbPhoto = (CheckBox) findViewById(R.id.cb_photo_lpsi);
 
-		cbPhoto.setOnCheckedChangeListener(this); // CheckBoxÑ¡ÖĞ×´Ì¬¸Ä±ä¼àÌıÆ÷
+		cbPhoto.setOnCheckedChangeListener(this); // CheckBoxé€‰ä¸­çŠ¶æ€æ”¹å˜ç›‘å¬å™¨
 	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (!isCheckAll) {
-			listener.onCheckedChanged(photo, buttonView, isChecked); // µ÷ÓÃÖ÷½çÃæ»Øµ÷º¯Êı
+			listener.onCheckedChanged(photo, buttonView, isChecked); // è°ƒç”¨ä¸»ç•Œé¢å›è°ƒå‡½æ•°
 		}
-		// ÈÃÍ¼Æ¬±ä°µ»òÕß±äÁÁ
+		// è®©å›¾ç‰‡å˜æš—æˆ–è€…å˜äº®
 		if (isChecked) {
 			setDrawingable();
 			ivPhoto.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -61,15 +61,10 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		photo.setChecked(isChecked);
 	}
 
-	/** ÉèÖÃÂ·¾¶ÏÂµÄÍ¼Æ¬¶ÔÓ¦µÄËõÂÔÍ¼ */
+	/** è®¾ç½®è·¯å¾„ä¸‹çš„å›¾ç‰‡å¯¹åº”çš„ç¼©ç•¥å›¾ */
 	public void setImageDrawable(final PhotoModel photo) {
 		this.photo = photo;
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ImageLoader.getInstance().displayImage("file://" + photo.getOriginalPath(), ivPhoto);
-			}
-		}, new Random().nextInt(10));
+		ImageLoader.getInstance().displayImage("file://" + photo.getOriginalPath(), ivPhoto);
 	}
 
 	private void setDrawingable() {
@@ -99,12 +94,12 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 	// l.onItemClick(position);
 	// }
 
-	/** Í¼Æ¬ItemÑ¡ÖĞÊÂ¼ş¼àÌıÆ÷ */
+	/** å›¾ç‰‡Itemé€‰ä¸­äº‹ä»¶ç›‘å¬å™¨ */
 	public static interface onPhotoItemCheckedListener {
 		public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked);
 	}
 
-	/** Í¼Æ¬µã»÷ÊÂ¼ş */
+	/** å›¾ç‰‡ç‚¹å‡»äº‹ä»¶ */
 	public interface onItemClickListener {
 		public void onItemClick(int position);
 	}
