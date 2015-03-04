@@ -32,12 +32,18 @@ import com.photoselector.ui.PhotoItem.onPhotoItemCheckedListener;
 import com.photoselector.util.AnimationUtil;
 import com.photoselector.util.CommonUtils;
 
-public class PhotoSelectorActivity extends Activity implements onItemClickListener, onPhotoItemCheckedListener, OnItemClickListener, OnClickListener {
+/**
+ * @author Aizaz AZ
+ *
+ */
+public class PhotoSelectorActivity extends Activity implements
+		onItemClickListener, onPhotoItemCheckedListener, OnItemClickListener,
+		OnClickListener {
 
 	public static final int SINGLE_IMAGE = 1;
 	public static final String KEY_MAX = "key_max";
 	private int MAX_IMAGE;
-	
+
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
 
@@ -59,20 +65,10 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		setContentView(R.layout.activity_photoselector);
+
 		if (getIntent().getExtras() != null) {
 			MAX_IMAGE = getIntent().getIntExtra(KEY_MAX, 10);
 		}
-		
-		DisplayImageOptions defaultDisplayImageOptions = new DisplayImageOptions.Builder() //
-				.considerExifParams(true) // 调整图片方向
-				.resetViewBeforeLoading(true) // 载入之前重置ImageView
-				.showImageOnLoading(R.drawable.ic_picture_loading) // 载入时图片设置为黑色
-				.showImageOnFail(R.drawable.ic_picture_loadfailed) // 加载失败时显示的图片
-				.delayBeforeLoading(0) // 载入之前的延迟时间
-				.build(); //
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(defaultDisplayImageOptions)
-				.memoryCacheExtraOptions(480, 800).threadPoolSize(5).build();
-		ImageLoader.getInstance().init(config);
 
 		photoSelectorDomain = new PhotoSelectorDomain(getApplicationContext());
 
@@ -91,10 +87,13 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		tvAlbum.setOnClickListener(this);
 		tvPreview.setOnClickListener(this);
 
-		photoAdapter = new PhotoSelectorAdapter(getApplicationContext(), new ArrayList<PhotoModel>(), CommonUtils.getWidthPixels(this), this, this, this);
+		photoAdapter = new PhotoSelectorAdapter(getApplicationContext(),
+				new ArrayList<PhotoModel>(), CommonUtils.getWidthPixels(this),
+				this, this, this);
 		gvPhotos.setAdapter(photoAdapter);
 
-		albumAdapter = new AlbumAdapter(getApplicationContext(), new ArrayList<AlbumModel>());
+		albumAdapter = new AlbumAdapter(getApplicationContext(),
+				new ArrayList<AlbumModel>());
 		lvAblum.setAdapter(albumAdapter);
 		lvAblum.setOnItemClickListener(this);
 
@@ -120,13 +119,15 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	/** 拍照 */
 	private void catchPicture() {
-		CommonUtils.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
+		CommonUtils.launchActivityForResult(this, new Intent(
+				MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-			PhotoModel photoModel = new PhotoModel(CommonUtils.query(getApplicationContext(), data.getData()));
+			PhotoModel photoModel = new PhotoModel(CommonUtils.query(
+					getApplicationContext(), data.getData()));
 			// selected.clear();
 			// //--keep all
 			// selected photos
@@ -168,8 +169,6 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		CommonUtils.launchActivity(this, PhotoPreviewActivity.class, bundle);
 	}
 
-	
-
 	private void album() {
 		if (layoutAlbum.getVisibility() == View.GONE) {
 			popAlbum();
@@ -181,12 +180,14 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	/** 弹出相册列表 */
 	private void popAlbum() {
 		layoutAlbum.setVisibility(View.VISIBLE);
-		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current).setLinearInterpolator().startAnimation(layoutAlbum);
+		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current)
+				.setLinearInterpolator().startAnimation(layoutAlbum);
 	}
 
 	/** 隐藏相册列表 */
 	private void hideAlbum() {
-		new AnimationUtil(getApplicationContext(), R.anim.translate_down).setLinearInterpolator().startAnimation(layoutAlbum);
+		new AnimationUtil(getApplicationContext(), R.anim.translate_down)
+				.setLinearInterpolator().startAnimation(layoutAlbum);
 		layoutAlbum.setVisibility(View.GONE);
 	}
 
@@ -211,7 +212,8 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	@Override
 	/** 照片选中状态改变之后 */
-	public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked) {
+	public void onCheckedChanged(PhotoModel photoModel,
+			CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
 			if (!selected.contains(photoModel))
 				selected.add(photoModel);
@@ -237,7 +239,8 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	@Override
 	/** 相册列表点击事件 */
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
 		AlbumModel current = (AlbumModel) parent.getItemAtPosition(position);
 		for (int i = 0; i < parent.getCount(); i++) {
 			AlbumModel album = (AlbumModel) parent.getItemAtPosition(i);
@@ -277,7 +280,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	private OnLocalReccentListener reccentListener = new OnLocalReccentListener() {
 		@Override
-		public void onPhotoLoaded(List<PhotoModel> photos) {			
+		public void onPhotoLoaded(List<PhotoModel> photos) {
 			for (PhotoModel model : photos) {
 				if (selected.contains(model)) {
 					model.setChecked(true);
@@ -286,7 +289,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			photoAdapter.update(photos);
 			gvPhotos.smoothScrollToPosition(0); // 滚动到顶端
 			// reset(); //--keep selected photos
-			
+
 		}
 	};
 }

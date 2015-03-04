@@ -1,11 +1,9 @@
 package com.photoselector.ui;
 
-import java.util.Random;
-
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -15,11 +13,18 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.photoselector.R;
 import com.photoselector.model.PhotoModel;
 
-public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, OnLongClickListener {
+/**
+ * @author Aizaz AZ
+ *
+ */
+
+public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
+		OnLongClickListener {
 
 	private ImageView ivPhoto;
 	private CheckBox cbPhoto;
@@ -29,16 +34,23 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 	private onItemClickListener l;
 	private int position;
 
+	public static DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+			.showImageOnLoading(R.drawable.ic_picture_loading)
+			.showImageOnFail(R.drawable.ic_picture_loadfailed)
+			.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
+			.bitmapConfig(Bitmap.Config.RGB_565).build();
+
 	private PhotoItem(Context context) {
 		super(context);
 	}
 
 	public PhotoItem(Context context, onPhotoItemCheckedListener listener) {
 		this(context);
-		LayoutInflater.from(context).inflate(R.layout.layout_photoitem, this, true);
+		LayoutInflater.from(context).inflate(R.layout.layout_photoitem, this,
+				true);
 		this.listener = listener;
 
-		 setOnLongClickListener(this);
+		setOnLongClickListener(this);
 
 		ivPhoto = (ImageView) findViewById(R.id.iv_photo_lpsi);
 		cbPhoto = (CheckBox) findViewById(R.id.cb_photo_lpsi);
@@ -64,12 +76,17 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 	/** 设置路径下的图片对应的缩略图 */
 	public void setImageDrawable(final PhotoModel photo) {
 		this.photo = photo;
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ImageLoader.getInstance().displayImage("file://" + photo.getOriginalPath(), ivPhoto);
-			}
-		}, new Random().nextInt(10));
+		// You may need this setting form some custom ROM(s)
+		/*
+		 * new Handler().postDelayed(new Runnable() {
+		 * 
+		 * @Override public void run() { ImageLoader.getInstance().displayImage(
+		 * "file://" + photo.getOriginalPath(), ivPhoto); } }, new
+		 * Random().nextInt(10));
+		 */
+
+		ImageLoader.getInstance().displayImage(
+				"file://" + photo.getOriginalPath(), ivPhoto, imageOptions);
 	}
 
 	private void setDrawingable() {
@@ -101,7 +118,8 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 
 	/** 图片Item选中事件监听器 */
 	public static interface onPhotoItemCheckedListener {
-		public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked);
+		public void onCheckedChanged(PhotoModel photoModel,
+				CompoundButton buttonView, boolean isChecked);
 	}
 
 	/** 图片点击事件 */
