@@ -1,5 +1,9 @@
 package com.photoselector.ui;
-
+/**
+ * 
+ * @author Aizaz AZ
+ *
+ */
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -35,12 +39,12 @@ public class AlbumItem extends LinearLayout {
 		this(context, attrs);
 	}
 
-	/** 设置相册封面 */
+	/** 脡猫脰脙脧脿虏谩路芒脙忙 */
 	public void setAlbumImage(String path) {
 		ImageLoader.getInstance().displayImage("file://" + path, ivAlbum);
 	}
 
-	/** 初始化 */
+	/** 鲁玫脢录禄炉 */
 	public void update(AlbumModel album) {
 		setAlbumImage(album.getRecent());
 		setName(album.getName());
@@ -53,7 +57,7 @@ public class AlbumItem extends LinearLayout {
 	}
 
 	public void setCount(int count) {
-		tvCount.setHint(count + "张");
+		tvCount.setHint(count + "脮脜");
 	}
 
 	public void isCheck(boolean isCheck) {
