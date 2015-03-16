@@ -1,5 +1,9 @@
 package com.photoselector.ui;
-
+/**
+ * 
+ * @author Aizaz AZ
+ *
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +76,7 @@ public class PhotoSelectorActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		RECCENT_PHOTO = getResources().getString(R.string.recent_photos);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_photoselector);
 
 		if (getIntent().getExtras() != null) {
@@ -108,10 +112,10 @@ public class PhotoSelectorActivity extends Activity implements
 		lvAblum.setAdapter(albumAdapter);
 		lvAblum.setOnItemClickListener(this);
 
-		findViewById(R.id.bv_back_lh).setOnClickListener(this); // ·µ»Ø
+		findViewById(R.id.bv_back_lh).setOnClickListener(this); // è¿”å›
 
-		photoSelectorDomain.getReccent(reccentListener); // ¸üĞÂ×î½üÕÕÆ¬
-		photoSelectorDomain.updateAlbum(albumListener); // ¸úĞÂÏà²áĞÅÏ¢
+		photoSelectorDomain.getReccent(reccentListener); // æ›´æ–°æœ€è¿‘ç…§ç‰‡
+		photoSelectorDomain.updateAlbum(albumListener); // è·Ÿæ–°ç›¸å†Œä¿¡æ¯
 	}
 
 	private void initImageLoader() {
@@ -159,7 +163,7 @@ public class PhotoSelectorActivity extends Activity implements
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_right_lh)
-			ok(); // Ñ¡ÍêÕÕÆ¬
+			ok(); // é€‰å®Œç…§ç‰‡
 		else if (v.getId() == R.id.tv_album_ar)
 			album();
 		else if (v.getId() == R.id.tv_preview_ar)
@@ -170,7 +174,7 @@ public class PhotoSelectorActivity extends Activity implements
 			finish();
 	}
 
-	/** ÅÄÕÕ */
+	/** æ‹ç…§ */
 	private void catchPicture() {
 		CommonUtils.launchActivityForResult(this, new Intent(
 				MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
@@ -205,7 +209,7 @@ public class PhotoSelectorActivity extends Activity implements
 		}
 	}
 
-	/** Íê³É */
+	/** å®Œæˆ */
 	private void ok() {
 		if (selected.isEmpty()) {
 			setResult(RESULT_CANCELED);
@@ -219,7 +223,7 @@ public class PhotoSelectorActivity extends Activity implements
 		finish();
 	}
 
-	/** Ô¤ÀÀÕÕÆ¬ */
+	/** é¢„è§ˆç…§ç‰‡ */
 	private void priview() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("photos", selected);
@@ -234,21 +238,21 @@ public class PhotoSelectorActivity extends Activity implements
 		}
 	}
 
-	/** µ¯³öÏà²áÁĞ±í */
+	/** å¼¹å‡ºç›¸å†Œåˆ—è¡¨ */
 	private void popAlbum() {
 		layoutAlbum.setVisibility(View.VISIBLE);
 		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current)
 				.setLinearInterpolator().startAnimation(layoutAlbum);
 	}
 
-	/** Òş²ØÏà²áÁĞ±í */
+	/** éšè—ç›¸å†Œåˆ—è¡¨ */
 	private void hideAlbum() {
 		new AnimationUtil(getApplicationContext(), R.anim.translate_down)
 				.setLinearInterpolator().startAnimation(layoutAlbum);
 		layoutAlbum.setVisibility(View.GONE);
 	}
 
-	/** Çå¿ÕÑ¡ÖĞµÄÍ¼Æ¬ */
+	/** æ¸…ç©ºé€‰ä¸­çš„å›¾ç‰‡ */
 	private void reset() {
 		selected.clear();
 		tvNumber.setText("(0)");
@@ -256,7 +260,7 @@ public class PhotoSelectorActivity extends Activity implements
 	}
 
 	@Override
-	/** µã»÷²é¿´ÕÕÆ¬ */
+	/** ç‚¹å‡»æŸ¥çœ‹ç…§ç‰‡ */
 	public void onItemClick(int position) {
 		Bundle bundle = new Bundle();
 		if (tvAlbum.getText().toString().equals(RECCENT_PHOTO))
@@ -268,7 +272,7 @@ public class PhotoSelectorActivity extends Activity implements
 	}
 
 	@Override
-	/** ÕÕÆ¬Ñ¡ÖĞ×´Ì¬¸Ä±äÖ®ºó */
+	/** ç…§ç‰‡é€‰ä¸­çŠ¶æ€æ”¹å˜ä¹‹å */
 	public void onCheckedChanged(PhotoModel photoModel,
 			CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
@@ -295,7 +299,7 @@ public class PhotoSelectorActivity extends Activity implements
 	}
 
 	@Override
-	/** Ïà²áÁĞ±íµã»÷ÊÂ¼ş */
+	/** ç›¸å†Œåˆ—è¡¨ç‚¹å‡»äº‹ä»¶ */
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		AlbumModel current = (AlbumModel) parent.getItemAtPosition(position);
@@ -311,19 +315,19 @@ public class PhotoSelectorActivity extends Activity implements
 		tvAlbum.setText(current.getName());
 		// tvTitle.setText(current.getName());
 
-		// ¸üĞÂÕÕÆ¬ÁĞ±í
+		// æ›´æ–°ç…§ç‰‡åˆ—è¡¨
 		if (current.getName().equals(RECCENT_PHOTO))
 			photoSelectorDomain.getReccent(reccentListener);
 		else
-			photoSelectorDomain.getAlbum(current.getName(), reccentListener); // »ñÈ¡Ñ¡ÖĞÏà²áµÄÕÕÆ¬
+			photoSelectorDomain.getAlbum(current.getName(), reccentListener); // è·å–é€‰ä¸­ç›¸å†Œçš„ç…§ç‰‡
 	}
 
-	/** »ñÈ¡±¾µØÍ¼¿âÕÕÆ¬»Øµ÷ */
+	/** è·å–æœ¬åœ°å›¾åº“ç…§ç‰‡å›è°ƒ */
 	public interface OnLocalReccentListener {
 		public void onPhotoLoaded(List<PhotoModel> photos);
 	}
 
-	/** »ñÈ¡±¾µØÏà²áĞÅÏ¢»Øµ÷ */
+	/** è·å–æœ¬åœ°ç›¸å†Œä¿¡æ¯å›è°ƒ */
 	public interface OnLocalAlbumListener {
 		public void onAlbumLoaded(List<AlbumModel> albums);
 	}
@@ -344,7 +348,7 @@ public class PhotoSelectorActivity extends Activity implements
 				}
 			}
 			photoAdapter.update(photos);
-			gvPhotos.smoothScrollToPosition(0); // ¹ö¶¯µ½¶¥¶Ë
+			gvPhotos.smoothScrollToPosition(0); // æ»šåŠ¨åˆ°é¡¶ç«¯
 			// reset(); //--keep selected photos
 
 		}
