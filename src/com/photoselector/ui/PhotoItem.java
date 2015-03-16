@@ -1,7 +1,6 @@
 package com.photoselector.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.photoselector.R;
 import com.photoselector.model.PhotoModel;
@@ -32,13 +30,7 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 	private PhotoModel photo;
 	private boolean isCheckAll;
 	private onItemClickListener l;
-	private int position;
-
-	public static DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-			.showImageOnLoading(R.drawable.ic_picture_loading)
-			.showImageOnFail(R.drawable.ic_picture_loadfailed)
-			.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
-			.bitmapConfig(Bitmap.Config.RGB_565).build();
+	private int position;	
 
 	private PhotoItem(Context context) {
 		super(context);
@@ -86,7 +78,7 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		 */
 
 		ImageLoader.getInstance().displayImage(
-				"file://" + photo.getOriginalPath(), ivPhoto, imageOptions);
+				"file://" + photo.getOriginalPath(), ivPhoto);
 	}
 
 	private void setDrawingable() {

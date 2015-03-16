@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -20,9 +21,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.photoselector.R;
 import com.photoselector.domain.PhotoSelectorDomain;
 import com.photoselector.model.AlbumModel;
@@ -47,7 +55,7 @@ public class PhotoSelectorActivity extends Activity implements
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
 
-	public static final String RECCENT_PHOTO = "最近照片";
+	public static String RECCENT_PHOTO = null;
 
 	private GridView gvPhotos;
 	private ListView lvAblum;
@@ -63,12 +71,15 @@ public class PhotoSelectorActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		RECCENT_PHOTO = getResources().getString(R.string.recent_photos);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		setContentView(R.layout.activity_photoselector);
 
 		if (getIntent().getExtras() != null) {
 			MAX_IMAGE = getIntent().getIntExtra(KEY_MAX, 10);
 		}
+
+		initImageLoader();
 
 		photoSelectorDomain = new PhotoSelectorDomain(getApplicationContext());
 
@@ -101,6 +112,48 @@ public class PhotoSelectorActivity extends Activity implements
 
 		photoSelectorDomain.getReccent(reccentListener); // 更新最近照片
 		photoSelectorDomain.updateAlbum(albumListener); // 跟新相册信息
+	}
+
+	private void initImageLoader() {
+		DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_picture_loading)
+				.showImageOnFail(R.drawable.ic_picture_loadfailed)
+				.cacheInMemory(true).cacheOnDisk(true)
+				.resetViewBeforeLoading(true).considerExifParams(false)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				this)
+				.memoryCacheExtraOptions(400, 400)
+				// default = device screen dimensions
+				.diskCacheExtraOptions(400, 400, null)
+				.threadPoolSize(5)
+				// default Thread.NORM_PRIORITY - 1
+				.threadPriority(Thread.NORM_PRIORITY)
+				// default FIFO
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				// default
+				.denyCacheImageMultipleSizesInMemory()
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.memoryCacheSize(2 * 1024 * 1024)
+				.memoryCacheSizePercentage(13)
+				// default
+				.diskCache(
+						new UnlimitedDiscCache(StorageUtils.getCacheDirectory(
+								this, true)))
+				// default
+				.diskCacheSize(50 * 1024 * 1024).diskCacheFileCount(100)
+				.diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+				// default
+				.imageDownloader(new BaseImageDownloader(this))
+				// default
+				.imageDecoder(new BaseImageDecoder(false))
+				// default
+				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+				// default
+				.defaultDisplayImageOptions(imageOptions).build();
+
+		ImageLoader.getInstance().init(config);
 	}
 
 	@Override
@@ -136,7 +189,11 @@ public class PhotoSelectorActivity extends Activity implements
 			// selected photos
 			// ///////////////////////////////////////////////////////////////////////////////////////////
 			if (selected.size() >= MAX_IMAGE) {
-				Toast.makeText(this, "已超出最大数量", Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						this,
+						String.format(
+								getString(R.string.max_img_limit_reached),
+								MAX_IMAGE), Toast.LENGTH_SHORT).show();
 				photoModel.setChecked(false);
 				photoAdapter.notifyDataSetChanged();
 			} else {
@@ -225,7 +282,7 @@ public class PhotoSelectorActivity extends Activity implements
 
 		if (selected.isEmpty()) {
 			tvPreview.setEnabled(false);
-			tvPreview.setText("预览");
+			tvPreview.setText(getString(R.string.preview));
 		}
 	}
 

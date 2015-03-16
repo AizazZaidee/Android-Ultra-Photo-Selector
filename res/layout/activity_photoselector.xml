@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:text="返回"
+                android:text="@string/back"
                 android:textColor="#FEFEFE"
                 android:textSize="@dimen/layout_title_mini_textsize"
                 android:visibility="invisible" />
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
-            android:text="选择照片"
+            android:text="@string/select_photos"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -62,7 +62,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="0dp"
             android:paddingTop="5dp"
-            android:text="确定"
+            android:text="@string/sure"
             android:textColor="@android:color/white"
             android:textSize="@dimen/layout_title_mini_textsize" />
 
@@ -136,7 +136,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="left|center_vertical"
                 android:minWidth="50dp"
-                android:text="最近照片"
+                android:text="@string/recent_photos"
                 android:textColor="@drawable/btn_black_textcolor_selector"
                 android:textSize="13sp" />
 
@@ -170,7 +170,7 @@
             android:clickable="true"
             android:enabled="false"
             android:padding="10dp"
-            android:text="预览"
+            android:text="@string/preview"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 

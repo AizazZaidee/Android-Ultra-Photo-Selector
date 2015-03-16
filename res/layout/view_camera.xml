@@ -3,12 +3,12 @@
     android:id="@+id/tv_camera_vc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:background="@drawable/bg_dark_selector"
-    android:drawableTop="@drawable/btn_camera_selector"
+    android:clickable="true"
     android:drawablePadding="0dp"
+    android:drawableTop="@drawable/btn_camera_selector"
     android:gravity="center"
+    android:orientation="vertical"
     android:paddingTop="15dp"
-    android:text="拍摄照片"
-    android:textColor="@android:color/white"
-    android:orientation="vertical" />
+    android:text="@string/taking_pictures"
+    android:textColor="@android:color/white" />
