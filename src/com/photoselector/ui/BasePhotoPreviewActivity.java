@@ -1,5 +1,9 @@
 package com.photoselector.ui;
-
+/**
+ * 
+ * @author Aizaz AZ
+ *
+ */
 import java.util.List;
 
 import android.app.Activity;
@@ -32,7 +36,7 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_photopreview);
 		layoutTop = (RelativeLayout) findViewById(R.id.layout_top_app);
 		btnBack = (ImageButton) findViewById(R.id.btn_back_app);
@@ -42,11 +46,11 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		btnBack.setOnClickListener(this);
 		mViewPager.setOnPageChangeListener(this);
 
-		overridePendingTransition(R.anim.activity_alpha_action_in, 0); // ½¥ÈëĞ§¹û
+		overridePendingTransition(R.anim.activity_alpha_action_in, 0); // æ¸å…¥æ•ˆæœ
 
 	}
 
-	/** °ó¶¨Êı¾İ£¬¸üĞÂ½çÃæ */
+	/** ç»‘å®šæ•°æ®ï¼Œæ›´æ–°ç•Œé¢ */
 	protected void bindData() {
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(current);
@@ -111,7 +115,7 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		tvPercent.setText((current + 1) + "/" + photos.size());
 	}
 
-	/** Í¼Æ¬µã»÷ÊÂ¼ş»Øµ÷ */
+	/** å›¾ç‰‡ç‚¹å‡»äº‹ä»¶å›è°ƒ */
 	private OnClickListener photoItemClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
