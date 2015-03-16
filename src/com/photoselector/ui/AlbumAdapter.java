@@ -1,5 +1,9 @@
 package com.photoselector.ui;
-
+/**
+ * 
+ * @author Aizaz AZ
+ *
+ */
 import java.util.ArrayList;
 
 import android.content.Context;
