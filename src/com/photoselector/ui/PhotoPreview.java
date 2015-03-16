@@ -1,5 +1,9 @@
 package com.photoselector.ui;
-
+/**
+ * 
+ * @author Aizaz AZ
+ *
+ */
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
