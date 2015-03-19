@@ -1,4 +1,4 @@
-Android Ultra Photo Selector [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Ultra--Photo--Selector-brightgreen.svg?style=flat)](https://github.com/AizazAZ/Android-Ultra-Photo-Selector)
+Android Ultra Photo Selector [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Ultra--Photo--Selector-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1527)
 =============================
 Select images from Android devices made easy :-) In preview you can also Zoom images. You can select images from different albums. I am using UIL, so you can configure image caching your own way, if you want to change.
 on your mobil phone. Selection image result is also preserved. See **AndroidManifest.xml** for more details. 
